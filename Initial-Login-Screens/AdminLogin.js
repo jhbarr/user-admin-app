@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { Role, useAuth } from "../context/AuthContext";
+import { Role, useAuth, useIsMount } from "../context/AuthContext";
 
 import { auth } from "../FireBaseConfig";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
-export default function AdminLogin() {
+export default function AdminLogin({ navigation }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const { onLogin, onSignup } = useAuth()
+
+    const { onLogin, onSignup, authState } = useAuth()
+    const isMount = useIsMount()
 
     const onSignIn = async () => {
         onLogin(email)
@@ -20,6 +22,16 @@ export default function AdminLogin() {
         id = 0
         onSignup(id, email, Role.ADMIN)
     }
+
+    useEffect(() => {
+        if (authState?.authenticated && authState?.role === Role.ADMIN) {
+            console.log(authState)
+            navigation.navigate('Admin Home Page')
+        }
+        else if (!isMount) {
+            alert("Invalid login credentials")
+        }
+    }, [authState])
 
     return (
         <KeyboardAvoidingView 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useRef, useEffect } from 'react';
 
 export const Role = Object.freeze({
     ADMIN: 'admin',
@@ -18,21 +18,19 @@ export const useAuth = () => {
     return useContext(AuthContext)
 }
 
-export const AuthProvider = ({ children }) => {
+export const useIsMount = () => {
+    const isMountRef = useRef(true);
+    useEffect(() => {
+      isMountRef.current = false;
+    }, []);
+    return isMountRef.current;
+  };
 
-	// const [authState, setAuthState] = useState<{
-	// 	authenticated: Boolean | null,
-	// 	username: String | null,
-	// 	role: Role | null,
-	// }>({
-	// 	authenticated: null,
-	// 	username: null,
-	// 	role: null
-	// });
+export const AuthProvider = ({ children }) => {
 
     const [authState, setAuthState] = useState({
         authenticated: null,
-		username: null,
+		email: null,
 		role: null
     })
 
@@ -50,7 +48,12 @@ export const AuthProvider = ({ children }) => {
             })
 
             const json = await response.json()
-            console.log(json)
+            
+            setAuthState({
+                authenticated: true,
+                email: json?.email,
+                role: json?.role
+            })
         }
         catch (error) {
             alert("Error" + error.message)
@@ -80,26 +83,6 @@ export const AuthProvider = ({ children }) => {
             alert("Error" + error.message)
         }
     }
-
-    // const login = (username, password) => {
-    //     if (username === 'admin' && password === 'admin') {
-    //         setAuthState({
-    //             authenticated: true,
-    //             username: username,
-    //             role: Role.ADMIN,
-    //         })
-    //     }
-    //     else if (uername === 'user' && password == 'user') {
-    //         setAuthState({
-    //             authenticated: true,
-    //             username: username,
-    //             role: Role.USER,
-    //         })
-    //     }
-    //     else {
-    //         alert('Invalid username or password')
-    //     }
-    // }
 
     const logout = async () => {
         setAuthState({

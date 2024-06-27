@@ -72,8 +72,10 @@ def login(email):
         "email" : email
     })
 
+    print(user)
+
     if user:
-        return {"role": user['role']}
+        return {"email": user['email'], "role": user['role']}
 
     # Return an error if login credentials cannot be found in the database
     return {"error" : "invalid login credentials"}, 401
