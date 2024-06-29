@@ -15,23 +15,22 @@ export default function AdminLogin({ navigation }) {
     const isMount = useIsMount()
 
     const onSignIn = async () => {
-        onLogin(email)
+        onLogin(email, password, Role.ADMIN)
     }
 
     const onRegister = async () => {
-        id = 0
-        onSignup(id, email, Role.ADMIN)
+        onSignup(email, password, Role.ADMIN)
     }
 
-    useEffect(() => {
-        if (authState?.authenticated && authState?.role === Role.ADMIN) {
-            console.log(authState)
-            navigation.navigate('Admin Home Page')
-        }
-        else if (!isMount) {
-            alert("Invalid login credentials")
-        }
-    }, [authState])
+    // useEffect(() => {
+    //     if (authState?.authenticated && authState?.role === Role.ADMIN) {
+    //         console.log(authState)
+    //         navigation.navigate('Admin Side')
+    //     }
+    //     else if (!isMount) {
+    //         alert("Invalid login credentials")
+    //     }
+    // }, [authState])
 
     return (
         <KeyboardAvoidingView 

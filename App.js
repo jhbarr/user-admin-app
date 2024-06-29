@@ -1,14 +1,17 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
+import { AuthProvider } from './context/AuthContext';
 
-import InitialLoginLayout from './navigation/InitialLoginLayout';
+import MainNavigationController from './navigation/MainNavigationController';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <InitialLoginLayout />
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <MainNavigationController />
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
 

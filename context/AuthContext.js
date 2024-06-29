@@ -1,16 +1,18 @@
 import * as React from 'react';
 import { createContext, useContext, useState, useRef, useEffect } from 'react';
+import { auth } from '../FireBaseConfig'
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
 export const Role = Object.freeze({
     ADMIN: 'admin',
     USER: 'user'
 });
 
-const AuthProps = {
-    authState: {authenticated: Boolean | null, username: String | null, role: Role | null},
-    onLogin: function (username, password) {},
-    onLogout: function () {}
-}
+// const AuthProps = {
+//     authState: {authenticated: Boolean | null, username: String | null, role: Role | null},
+//     onLogin: function (username, password) {},
+//     onLogout: function () {}
+// }
 
 const AuthContext = createContext()
 
@@ -18,13 +20,14 @@ export const useAuth = () => {
     return useContext(AuthContext)
 }
 
-export const useIsMount = () => {
-    const isMountRef = useRef(true);
-    useEffect(() => {
-      isMountRef.current = false;
-    }, []);
-    return isMountRef.current;
-  };
+// export const useIsMount = () => {
+//     const isMountRef = useRef(true);
+//     useEffect(() => {
+//       isMountRef.current = false;
+//     }, []);
+//     return isMountRef.current;
+//   };
+
 
 export const AuthProvider = ({ children }) => {
 
@@ -34,9 +37,11 @@ export const AuthProvider = ({ children }) => {
 		role: null
     })
 
-    const login = async (email) => {
+
+    const login = async (email, password, role) => {
         try {
-            const response = await fetch('http://127.0.0.1:5000/login', {
+            const firebase_response = await signInWithEmailAndPassword(auth, email, password);
+            const api_response = await fetch('http://127.0.0.1:5000/login', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -47,37 +52,44 @@ export const AuthProvider = ({ children }) => {
                   }),
             })
 
-            const json = await response.json()
-            
-            setAuthState({
-                authenticated: true,
-                email: json?.email,
-                role: json?.role
-            })
+            const json = await api_response.json()
+            if (json?.role === role) {
+                setAuthState({
+                    authenticated: true,
+                    email: json?.email,
+                    role: json?.role
+                })
+            }
         }
         catch (error) {
             alert("Error" + error.message)
         }
     }
 
-    const signup = async (id, email, role) => {
+    const signup = async (email, password, role) => {
         try {
-            const response = await fetch('http://127.0.0.1:5000/sign-up', {
+            const firebase_response = await createUserWithEmailAndPassword (auth, email, password);
+            const api_response = await fetch('http://127.0.0.1:5000/sign-up', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                   },
                   body: JSON.stringify({
-                    // *** IMPLEMENT LATER **** Generate the user ID from firebase
-                    // userID: id,
+                    userID: firebase_response?.user.uid,
                     userEmail: email,
                     userRole: role
                   }),
             })
 
-            const json = await response.json()
-            console.log(json)
+            const json = await api_response.json()
+            if (json?.role === role) {
+                setAuthState({
+                    authenticated: true,
+                    email: json?.email,
+                    role: json?.role
+                })
+            }
         }
         catch (error) {
             alert("Error" + error.message)
@@ -97,6 +109,7 @@ export const AuthProvider = ({ children }) => {
         onSignup: signup,
         onLogOut: logout,
         authState,
+        setAuthState,
     }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -7,31 +7,32 @@ import { auth } from "../FireBaseConfig";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
+
+
 export default function UserLogin({ navigation }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
     const { onLogin, onSignup, authState } = useAuth()
     const isMount = useIsMount()
 
     const onSignIn = async () => {
-        onLogin(email)
+        onLogin(email, password, Role.USER)
     }
 
     const onRegister = async () => {
-        id = 0
-        onSignup(id, email, Role.USER)
+        onSignup(email, password, Role.USER)
     }
 
-    useEffect(() => {
-        if (authState?.authenticated && authState?.role === Role.USER) {
-            console.log(authState)
-            navigation.navigate('User Home Page')
-        }
-        else if (!isMount) {
-            alert("Invalid login credentials")
-        }
-    }, [authState])
+    // useEffect(() => {
+    //     if (authState?.authenticated && authState?.role === Role.USER) {
+    //         console.log(authState)
+    //         navigation.replace('User Side');
+    //     }
+    //     else if (!isMount) {
+    //         alert("Invalid login credentials")
+    //     }
+    // }, [authState])
+
 
     return (
         <KeyboardAvoidingView 

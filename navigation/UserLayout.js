@@ -6,14 +6,14 @@ import UserHome from '../user-screens/UserHome'
 
 const Stack = createStackNavigator()
 
-export default function InitialLoginLayout() {
+export default function UserLayout() {
     return (
             <Stack.Navigator
                 screenOptions={{
                     headerShown: false
                 }}
             >
-                <Stack.Screen name='User Login Page' component={UserLogin}/>
+                {/* <Stack.Screen name='User Login Page' component={UserLogin}/> */}
                 <Stack.Screen name='User Home Page' component={UserHome} />
             </Stack.Navigator>
     )

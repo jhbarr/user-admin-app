@@ -72,8 +72,6 @@ def login(email):
         "email" : email
     })
 
-    print(user)
-
     if user:
         return {"email": user['email'], "role": user['role']}
 
