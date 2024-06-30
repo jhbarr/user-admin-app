@@ -23,7 +23,7 @@ db = LocalProxy(get_db)
 ******** USER METHODS *******
 """
 
-def signUp(email,role):
+def signUp(id, email,role):
     """
     signup() -> role (String)
 
@@ -38,21 +38,24 @@ def signUp(email,role):
     collection = db['users']
     # Create user object
     user = {
-        "_id" : uuid.uuid4().hex,
+        "_id" : id,
         "email" : email,
         "role" : role,
+        "stamps": 0,
     }
 
+    taken_user = collection.find_one({"email" : email})
+
     # Check to see whether the email has been taken already
-    if collection.find_one({"email" : email}):
-        return {"error" : "Email already exists"}, 409
+    if taken_user:
+        return {"Error" : "Email already exists"}, 409
     
     # Insert the user into the users collection
     if collection.insert_one(user):
-        return {"role" : user['role']}
+        return {"role" : user['role'], "id": user['_id']}
     
     # Return an error if the user could not be successfully added to the database
-    return {"error" : "user could not be added"}
+    return {"Error" : "user could not be added"}
 
 
 
@@ -73,7 +76,25 @@ def login(email):
     })
 
     if user:
-        return {"email": user['email'], "role": user['role']}
+        return {"email": user['email'], "role": user['role'], "id": user['_id']}
 
     # Return an error if login credentials cannot be found in the database
-    return {"error" : "invalid login credentials"}, 401
+    return {"Error" : "invalid login credentials"}, 401
+
+
+"""
+********* DATABASE QUERY METHODS **********
+"""
+
+def getStamps(id):
+    collection = db['uses']
+
+    # Query the database to find the user with the associated ID
+    user = collection.find_one({"_id": id})
+
+    # Check if the query returned any valid results
+    if user:
+        return {"stamps": user['stamps']}
+     
+    # Return an error if no such user exists
+    return {"Error": "Invalid user"}

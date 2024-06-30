@@ -1,20 +1,18 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import AdminLogin from "../Initial-Login-Screens/AdminLogin";
 import AdminHome from "../admin-screens/AdminHome";
 
-const Stack = createStackNavigator()
+const Tab = createBottomTabNavigator()
 
 export default function AdminLayout() {
     return (
-            <Stack.Navigator
-                screenOptions={{
-                    headerShown: false
-                }}
-            >
-                {/* <Stack.Screen name='Admin Login Page' component={AdminLogin}/> */}
-                <Stack.Screen name='Admin Home Page' component={AdminHome} />
-            </Stack.Navigator>
+        <Tab.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+        >
+           <Tab.Screen name='Admin Home Page' component={AdminHome} />
+        </Tab.Navigator>
     )
 }

@@ -20,13 +20,13 @@ export const useAuth = () => {
     return useContext(AuthContext)
 }
 
-// export const useIsMount = () => {
-//     const isMountRef = useRef(true);
-//     useEffect(() => {
-//       isMountRef.current = false;
-//     }, []);
-//     return isMountRef.current;
-//   };
+export const useIsMount = () => {
+    const isMountRef = useRef(true);
+    useEffect(() => {
+      isMountRef.current = false;
+    }, []);
+    return isMountRef.current;
+  };
 
 
 export const AuthProvider = ({ children }) => {
@@ -57,7 +57,8 @@ export const AuthProvider = ({ children }) => {
                 setAuthState({
                     authenticated: true,
                     email: json?.email,
-                    role: json?.role
+                    role: json?.role,
+                    id: json?.id,
                 })
             }
         }
@@ -76,9 +77,9 @@ export const AuthProvider = ({ children }) => {
                     'Content-Type': 'application/json',
                   },
                   body: JSON.stringify({
-                    userID: firebase_response?.user.uid,
                     userEmail: email,
-                    userRole: role
+                    userRole: role,
+                    userID: firebase_response?.user.uid,
                   }),
             })
 
@@ -87,7 +88,8 @@ export const AuthProvider = ({ children }) => {
                 setAuthState({
                     authenticated: true,
                     email: json?.email,
-                    role: json?.role
+                    role: json?.role,
+                    id: json?.id,
                 })
             }
         }

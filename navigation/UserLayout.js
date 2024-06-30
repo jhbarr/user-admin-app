@@ -1,20 +1,20 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import UserLogin from "../Initial-Login-Screens/UserLogin";
 import UserHome from '../user-screens/UserHome'
+import UserLoyalty from '../user-screens/UserLoyalty'
 
-const Stack = createStackNavigator()
+const Tab = createBottomTabNavigator()
 
 export default function UserLayout() {
     return (
-            <Stack.Navigator
+            <Tab.Navigator
                 screenOptions={{
                     headerShown: false
                 }}
             >
-                {/* <Stack.Screen name='User Login Page' component={UserLogin}/> */}
-                <Stack.Screen name='User Home Page' component={UserHome} />
-            </Stack.Navigator>
+                <Tab.Screen name='User Home Page' component={UserHome} />
+                <Tab.Screen name='User Info Page' component={UserLoyalty} />
+            </Tab.Navigator>
     )
 }

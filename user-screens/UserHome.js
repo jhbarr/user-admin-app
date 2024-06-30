@@ -4,21 +4,22 @@ import { auth } from "../FireBaseConfig";
 import { useAuth } from "../context/AuthContext";
 
 export default function UserHome({ navigation }) {
-    const { setAuthState } = useAuth()
+    const { authState, setAuthState } = useAuth()
 
     const signOut = () => {
         auth.signOut()
         setAuthState({
             authenticated: null,
             email: null,
-            role: null
+            role: null,
+            id: null,
         })
     }
 
     return (
         <View style = {styles.container}>
             <Text>User Home Page</Text>
-            <Text>Email: {auth.currentUser?.email}</Text>
+            <Text>Email: {authState?.email}</Text>
             <TouchableOpacity
                 style = {styles.button}
                 onPress={signOut}
