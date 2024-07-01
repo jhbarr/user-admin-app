@@ -1,0 +1,7 @@
+Admin login:
+    Email - josephbarrows03@gmail.com
+    Password - password2
+
+User login:
+    Email - jojihen@icloud.com 
+    Password - password

@@ -1,16 +1,24 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const Tab = createBottomTabNavigator()
+import HomeScreen from "../admin-screens/HomeScreen";
+import AddScreen from "../admin-screens/AddScreen";
+import ConfirmScreen from "../admin-screens/ConfirmScreen";
+import ScannerScreen from "../admin-screens/ScannerScreen";
+
+const Stack = createStackNavigator()
 
 export default function AdminLayout() {
     return (
-        <Tab.Navigator
+        <Stack.Navigator
             screenOptions={{
                 headerShown: false
             }}
         >
-            
-        </Tab.Navigator>
+            <Stack.Screen name='Home' component={HomeScreen}/>
+            <Stack.Screen name='Scanner' component={ScannerScreen}/>
+            <Stack.Screen name='Add' component={AddScreen}/>
+            <Stack.Screen name='Confirm' component={ConfirmScreen}/>
+        </Stack.Navigator>
     )
 }
