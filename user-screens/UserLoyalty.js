@@ -6,13 +6,18 @@ import QRCode from "react-native-qrcode-svg";
 export default function UserLoyalty({ navigation }) {
     const { authState } = useAuth()
 
+    function onError() {
+        console.log("There was an error with the QR code")
+    }
+
     return (
         <View style = {styles.view}>
             <QRCode 
-                value={authState?.id} 
+                value={authState?.id === null ? 0 : authState?.id} 
                 size={200} 
                 color="black"
                 backgroundColor="white"
+                onError={onError}
             /> 
             <Text style={styles.text}>ID: {authState?.id}</Text>
         </View>

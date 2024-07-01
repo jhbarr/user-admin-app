@@ -6,7 +6,7 @@ API_routes = Blueprint("API_routes", __name__)
 @API_routes.route('/login', methods=['POST'])
 def user_login():
     email = request.json['userEmail']
-    
+
     return login(email)
 
 @API_routes.route('/sign-up', methods=['POST'])
@@ -17,7 +17,7 @@ def user_signup():
 
     return signUp(id, email, role)
 
-@API_routes.route('get-stamps', methods=['POST'])
+@API_routes.route('/get-stamps', methods=['POST'])
 def get_stamps():
     id = request.json['userID']
 

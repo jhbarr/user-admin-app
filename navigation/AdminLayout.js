@@ -1,8 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import AdminHome from "../admin-screens/AdminHome";
-
 const Tab = createBottomTabNavigator()
 
 export default function AdminLayout() {
@@ -12,7 +10,7 @@ export default function AdminLayout() {
                 headerShown: false
             }}
         >
-           <Tab.Screen name='Admin Home Page' component={AdminHome} />
+            
         </Tab.Navigator>
     )
 }
