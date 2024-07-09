@@ -2,7 +2,6 @@ from flask import abort, session
 from werkzeug.local import LocalProxy
 from pymongo import MongoClient
 import certifi
-import uuid
 
 def get_db():
     """
@@ -87,7 +86,7 @@ def login(email):
 """
 
 def getStamps(id):
-    collection = db['uses']
+    collection = db['users']
 
     # Query the database to find the user with the associated ID
     user = collection.find_one({"_id": id})
@@ -98,3 +97,10 @@ def getStamps(id):
      
     # Return an error if no such user exists
     return {"Error": "Invalid user"}
+
+
+
+"""
+******* CHANGE STREAM THREAD METHODS **********
+"""
+

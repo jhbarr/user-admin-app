@@ -5,3 +5,7 @@ Admin login:
 User login:
     Email - jojihen@icloud.com 
     Password - password
+
+Sean:
+add users screen with circles
+make qr code scanner and learn about qr codes
