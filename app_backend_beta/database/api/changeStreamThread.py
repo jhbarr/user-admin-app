@@ -29,7 +29,7 @@ class changeStreamThread(threading.Thread):
                     equalsID = (change['documentKey']['_id'] == self.userID)
                     stamps = change['updateDescription']['updatedFields']['stamps']
 
-                    if equalsID: self.socket_instance.emit("stamp", {"stamps": stamps})
+                    if equalsID: self.socket_instance.emit("stamp", {"userStamps": stamps})
                     continue
                 
                 time.sleep(5)

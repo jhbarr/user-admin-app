@@ -45,7 +45,7 @@ export default function UserLoyalty({ navigation }) {
         socket.on("connect", () => sendConnect())
 
         socket.on("stamp", (data) => {
-            setStamps(data.stamps)
+            setStamps(data.userStamps)
           })
         
         // when component unmounts, disconnect

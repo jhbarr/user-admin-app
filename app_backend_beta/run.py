@@ -26,7 +26,9 @@ def catch_all(path):
 
 @socketio.on("connect")
 def connected():
-    """event listener when client connects to the server"""
+    """
+    Event listener when client connects to the server
+    """
     print("client has connected")
 
 @socketio.on("start-thread")
@@ -42,7 +44,9 @@ def start_thread(data):
 
 @socketio.on("disconnect")
 def disconnected():
-    """event listener when client disconnects to the server"""
+    """
+    Event listener when client disconnects to the server
+    """
     print("user disconnected")
 
     thread_name = "Thread " + request.sid
@@ -50,5 +54,4 @@ def disconnected():
 
    
 if __name__ == "__main__":
-    #app.run(debug=True)
     socketio.run(app, debug=True)
