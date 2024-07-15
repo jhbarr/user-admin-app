@@ -98,9 +98,3 @@ def getStamps(id):
     # Return an error if no such user exists
     return {"Error": "Invalid user"}
 
-
-
-"""
-******* CHANGE STREAM THREAD METHODS **********
-"""
-

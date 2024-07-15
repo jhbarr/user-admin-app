@@ -2,9 +2,9 @@ import React from "react";
 import { createStackNavigator, createSwitchNavigator, createAppContainer} from "@react-navigation/stack";
 
 
-import InitialPage from '../Initial-Login-Screens/InitialPage'
-import UserLogin from '../Initial-Login-Screens/UserLogin'
-import AdminLogin from '../Initial-Login-Screens/AdminLogin'
+import InitialPage from '../initial-login-screens/InitialPage'
+import UserLogin from '../initial-login-screens/UserLogin'
+import AdminLogin from '../initial-login-screens/AdminLogin'
 
 const Stack = createStackNavigator()
 

@@ -23,15 +23,15 @@ export default function UserLogin({ navigation }) {
         onSignup(email, password, Role.USER)
     }
 
-    // useEffect(() => {
-    //     if (authState?.authenticated && authState?.role === Role.USER) {
-    //         console.log(authState)
-    //         navigation.replace('User Side');
-    //     }
-    //     else if (!isMount) {
-    //         alert("Invalid login credentials")
-    //     }
-    // }, [authState])
+    useEffect(() => {
+        if (authState?.authenticated && authState?.role === Role.USER) {
+            console.log(authState)
+            navigation.replace('User Side');
+        }
+        else if (!isMount) {
+            alert("Invalid login credentials")
+        }
+    }, [authState])
 
 
     return (

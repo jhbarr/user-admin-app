@@ -41,7 +41,8 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password, role) => {
         try {
             const firebase_response = await signInWithEmailAndPassword(auth, email, password);
-            const api_response = await fetch('http://127.0.0.1:5000/login', {
+            // 127.0.0.1:5000
+            const api_response = await fetch('http://192.168.0.73:5001/login', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -53,6 +54,7 @@ export const AuthProvider = ({ children }) => {
             })
 
             const json = await api_response.json()
+            console.log(json)
             if (json?.role === role) {
                 setAuthState({
                     authenticated: true,

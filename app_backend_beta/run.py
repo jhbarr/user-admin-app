@@ -4,10 +4,8 @@ from flask_socketio import SocketIO, emit
 import os
 from database.api.api_routes import API_routes, start_change_stream_thread, stop_change_stream_thread
 
-"""
-Creates the basic flask app and registers the valid route blueprints
-Then runs the app
-"""
+# Creates the basic flask app and registers the valid route blueprints
+# Then runs the app
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
 app.config['DEBUG'] = True
@@ -24,34 +22,41 @@ socketio = SocketIO(app,cors_allowed_origins="*")
 def catch_all(path):
         return "Incorrect API route"
 
+"""
+********* WEB SOCKET ROUTES (WS) ************
+"""
 @socketio.on("connect")
 def connected():
     """
-    Event listener when client connects to the server
+    # Event listener to check when the user has connected to the socket
     """
     print("client has connected")
 
 @socketio.on("start-thread")
 def start_thread(data):
     """
-    Starts a change stream thread with the sid of the current user
+    Starts a database change stream thread for the current user
+        data: {"userID" : id}
     """
+
     userID = data['userID']
     sid = request.sid
-    thread_name = "thread " + sid
     
-    start_change_stream_thread(thread_name, userID, sid, socketio)
+    # This function actually starts the change stream thread
+    start_change_stream_thread(userID, sid, socketio)
 
 @socketio.on("disconnect")
 def disconnected():
     """
-    Event listener when client disconnects to the server
+    Even listener to check when the user has disconnected from the socket
     """
     print("user disconnected")
 
-    thread_name = "Thread " + request.sid
-    stop_change_stream_thread(thread_name)
+    # This function closes the change stream thread for the user 
+    stop_change_stream_thread(request.sid)
 
    
+
 if __name__ == "__main__":
-    socketio.run(app, debug=True)
+    # Start the app using Socket IO
+    socketio.run(app, debug=True, port=5001, host="192.168.0.73")
