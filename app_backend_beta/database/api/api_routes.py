@@ -66,6 +66,15 @@ def get_stamps():
     return getStamps(id)
 
 
+@API_routes.route('/set-stamps', methods=['POST'])
+def set_stamps():
+    id = request.json['userID']
+    stamp_increase = request.json['stampIncrease']
+
+    # Call setStamps function from databse.db
+    return setStamps(id, stamp_increase)
+
+
 """
 *********** WEB SOCKET METHODS (WS) **********
 """

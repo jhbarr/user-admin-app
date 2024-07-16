@@ -7,5 +7,7 @@ User login:
     Password - password
 
 Sean:
-add users screen with circles
-make qr code scanner and learn about qr codes
+Make the qr code auto scan and render the next page automatically
+
+Me:
+Make the route for set stamps

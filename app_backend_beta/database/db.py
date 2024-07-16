@@ -65,8 +65,8 @@ def login(email):
     Inputs:
         email (String): The email of the user logging in
 
-    This will set the current session's userID to the ID of the user that is logging in.
-    So that their entries can be quickly accessed. 
+    This will check whether a user with the associated email exists in the database. It will return the 
+    role and id of that user if they exist. Otherwise an error will be returned. 
     """
 
     collection  = db['users']
@@ -86,6 +86,16 @@ def login(email):
 """
 
 def getStamps(id):
+    """
+    getStamps() -> int
+
+    Inputs:
+        id (String) : The id of the user whose stamps want to be accessed
+
+    Will return the number of stamps that the user has so long as that user exists. Otherwise an error
+    will be thrown. 
+    """
+
     collection = db['users']
 
     # Query the database to find the user with the associated ID
@@ -98,3 +108,32 @@ def getStamps(id):
     # Return an error if no such user exists
     return {"Error": "Invalid user"}
 
+
+def setStamps(id, stampIncrease):
+    """
+    setStamps() -> String
+
+    Inputs:
+        id (String) : The document id of the user whose stamps should be updated
+        stampIncrease (int) : The amount by which the user's stamps should be changed
+    
+    This function will increase the givens user's stamps by the specified amount. 
+    """
+
+    collection = db['users']
+
+    # Try to increase the stamps of the user
+    result = collection.update_one(
+        {'_id': id},
+        {
+            '$inc' : {'stamps' : stampIncrease}
+        }
+    )
+
+    # Check if the user's document was modified
+    # If this returns zero then there is no user with the associated id
+    if result.modified_count == 1:
+        return {"Message" : "Stamp increase successful"}
+
+    # Return an error if the user does not exist
+    return {"Error" : "Invalid user"}

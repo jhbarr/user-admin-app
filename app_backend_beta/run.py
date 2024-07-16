@@ -59,4 +59,5 @@ def disconnected():
 
 if __name__ == "__main__":
     # Start the app using Socket IO
+    # To run on local host - temporarily delete the "host"
     socketio.run(app, debug=True, port=5001, host="192.168.0.73")

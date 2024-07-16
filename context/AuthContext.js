@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }) => {
     const signup = async (email, password, role) => {
         try {
             const firebase_response = await createUserWithEmailAndPassword (auth, email, password);
-            const api_response = await fetch('http://127.0.0.1:5000/sign-up', {
+            const api_response = await fetch('http://192.168.0.73:5001/sign-up', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

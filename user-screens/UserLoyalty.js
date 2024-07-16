@@ -17,7 +17,7 @@ export default function UserLoyalty({ navigation }) {
 
     // Function that is run when the user connects to the web socket
     const sendConnect = async () => {
-        const api_response = await fetch('http://127.0.0.1:5000/get-stamps', {
+        const api_response = await fetch('http://192.168.0.73:5001/get-stamps', {
           method: 'POST',
           headers: {
               Accept: 'application/json',
@@ -35,27 +35,27 @@ export default function UserLoyalty({ navigation }) {
       }
 
     // Open and connect to a Socket IO web socket
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     // create websocket/connect
-    //     socket = io("http://127.0.0.1:5000/", {
-    //       transports: ["websocket"],
-    //       cors: {
-    //         origin: "http://127.0.0.1:3000/",
-    //       },
-    //     })
+        // create websocket/connect
+        socket = io("http://192.168.0.73:5001/", {
+          transports: ["websocket"],
+          cors: {
+            origin: "http://192.168.0.73:3000/",
+          },
+        })
     
-    //     socket.on("connect", () => sendConnect())
+        socket.on("connect", () => sendConnect())
 
-    //     socket.on("stamp", (data) => {
-    //         setStamps(data.userStamps)
-    //       })
+        socket.on("stamp", (data) => {
+            setStamps(data.userStamps)
+          })
         
-    //     // when component unmounts, disconnect
-    //     return (() => {
-    //         socket.disconnect()
-    //     })
-    // }, [])
+        // when component unmounts, disconnect
+        return (() => {
+            socket.disconnect()
+        })
+    }, [])
 
     return (
         <View style = {styles.view}>
@@ -66,10 +66,8 @@ export default function UserLoyalty({ navigation }) {
                     backgroundColor="white"
                     onError={onError}
                 /> 
-                <Text 
-                    style={[styles.text, {fontSize: 20, position:'absolute',alignSelf:'flex-end', bottom: height * 0.03}]}>
-                        ID: {authState?.id
-                }</Text>
+                <Text style={styles.text}>ID: {authState?.id}</Text>
+                <Text style={styles.text}>Stamps: {stamps}</Text>
         </View>
     )
 }
@@ -77,6 +75,8 @@ export default function UserLoyalty({ navigation }) {
 const styles = StyleSheet.create({
     view: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     backgroundImage: {
         flex: 1,
@@ -100,7 +100,8 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: 'PatrickHand-Regular',
-        color: 'white',
+        color: 'black',
+        marginTop: 20,
     }
 })
 
