@@ -19,6 +19,7 @@ export default function AdminLayout() {
             <Stack.Screen name='Scanner' component={ScannerScreen}/>
             <Stack.Screen name='Add' component={AddScreen}/>
             <Stack.Screen name='Confirm' component={ConfirmScreen}/>
+            <Stack.Screen name="Use" component={FreePopsiclesScreen}/>
         </Stack.Navigator>
     )
 }

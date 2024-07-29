@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 
-export default function AddScreen({ navigation }) {
+export default function AddScreen({ navigation, route }) {
   const [quantity, setQuantity] = useState(''); // State for quantity as string
+  const { id } = route.params;
 
   const minusQuantity = () => {
     if (quantity === '' || parseInt(quantity, 10) <= 1) {
@@ -20,10 +21,52 @@ export default function AddScreen({ navigation }) {
     }
   };
 
+  const calculateStamps = () => {
+    const updatedStamps = -1;
+    try{
+      fetch('http://192.168.0.73:5001/setStamps', {
+          method: 'POST',
+          headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id: id,
+              stampIncrease: quantity
+            }),
+      })
+  }
+  catch{
+      alert("Error: Could not increase stamps by " + quantity)
+  }
+
+  try{
+    updatedStamps = fetch('http://192.168.0.73:5001/getStamps', {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: id,
+          }),
+    })
+  }
+  catch{
+    alert("Error: Could not fetch stamps for user ID: " + id)
+  }
+
+    if(updatedStamps >= 10) {
+      navigation.navigate("Use", { id: id })
+    } else {
+      navigation.navigate("Confirm", { id: id, stamps: updatedStamps })
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Add</Text>
-
+      <Text style={styles.scannedDataText}>Scanned id: {id}</Text>
       <View style={styles.quantityContainer}>
         {/* Minus button */}
         <TouchableOpacity style={styles.button} onPress={minusQuantity}>
@@ -56,7 +99,7 @@ export default function AddScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Scanner")}>
           <Text style={styles.buttonText}>Back</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Confirm")}>
+        <TouchableOpacity style={styles.button} onPress={calculateStamps}>
           <Text style={styles.buttonText}>Add</Text>
         </TouchableOpacity>
       </View>

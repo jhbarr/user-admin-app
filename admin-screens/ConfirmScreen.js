@@ -1,13 +1,18 @@
 import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 
-export default function ConfirmScreen({ navigation }) {
+export default function ConfirmScreen({ navigation, route }) {
+  const { id } = route.params;
+  const { stamps } = route.params;
+
   return (
     <View style={styles.container}>
         {/* Done Message */}
         <Text style={styles.text}>DONE!</Text>
+        <Text>{id} has {stamps} stamps</Text>
+        <Text>{stamps}</Text>
         {/* Back and Confirm Buttons */}
         <View style={styles.buttonsContainer}>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Add")}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Add", { id: id })}>
                 <Text style={styles.buttonText}>Back</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")}>
