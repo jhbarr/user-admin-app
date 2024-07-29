@@ -3,6 +3,8 @@ import { createContext, useContext, useState, useRef, useEffect } from 'react';
 import { auth } from '../FireBaseConfig'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
+
+
 export const Role = Object.freeze({
     ADMIN: 'admin',
     USER: 'user'

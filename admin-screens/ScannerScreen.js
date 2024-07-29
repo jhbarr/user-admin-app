@@ -38,9 +38,9 @@ export default function ScannerScreen({ navigation }) {
         style={styles.camera}
       />
       {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
+        <Button title={"Tap to Scan Again"} onPress={() => {setScanned(false)}} />
       )}
-      <Text style={styles.scannedDataText}>"QR Code Data: "{scannedData}</Text>
+      <Text style={styles.scannedDataText}>Data : {scannedData}</Text>
       <Button title="Add Rewards" onPress={() => navigation.navigate("Add")} />
       <Button title="Back" onPress={() => navigation.navigate("Home")} />
     </View>
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
     fontSize: 24,
@@ -61,8 +62,8 @@ const styles = StyleSheet.create({
   camera: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 500,
-    width: 375,
+    height: "50%",
+    width: "85%",
     overflow: 'hidden',
     borderRadius: 30,
     backgroundColor: 'tomato'
@@ -80,6 +81,7 @@ const styles = StyleSheet.create({
   },
   scannedDataText: {
     fontSize: 16,
+    marginTop: 25,
     marginBottom: 10,
   }
 });

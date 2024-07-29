@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { createStackNavigator} from "@react-navigation/stack";
 import { useAuth, Role } from "../context/AuthContext";
+import { auth } from "../FireBaseConfig";
 
 import InitialLoginLayout from "./InitialLoginLayout";
 import AdminLayout from "./AdminLayout";
@@ -9,11 +10,28 @@ import UserLayout from './UserLayout'
 const Stack = createStackNavigator()
 
 export default function MainNavigationController() {
-    const { authState } = useAuth()
+    const { authState, setAuthState } = useAuth()
 
     useEffect(() => {
-        console.log(authState)
-    }, [authState])
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setAuthState({
+                    authenticated: true,
+                    email: user.email,
+                    id: user.uid,
+                    role: 'user',
+                })
+            }
+            else {
+                setAuthState({
+                    authenticated: null,
+                    email: null,
+                    id: null,
+                    role: null,
+                })
+            }
+        })
+    }, [])
 
     return (
         <Stack.Navigator
