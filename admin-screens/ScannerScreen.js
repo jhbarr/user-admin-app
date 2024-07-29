@@ -5,7 +5,7 @@ import { CameraView, Camera } from 'expo-camera';
 export default function ScannerScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [scannedData, setScannedData] = useState('');
+  const [scannedID, setScannedID] = useState('');
 
   useEffect(() => {
     const getCameraPermissions = async () => {
@@ -16,9 +16,10 @@ export default function ScannerScreen({ navigation }) {
     getCameraPermissions();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = ({ type, id }) => {
     setScanned(true);
-    setScannedData(data);
+    setScannedID(id);
+    navigation.navigate('Add', { id: id });
   };
 
   if (hasPermission === null) {
@@ -34,14 +35,14 @@ export default function ScannerScreen({ navigation }) {
         onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
         barcodeScannerSettings={{
           barcodeTypes: ["qr", "pdf417"],
+          interval: 500,
         }}
         style={styles.camera}
       />
       {scanned && (
         <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
       )}
-      <Text style={styles.scannedDataText}>"QR Code Data: "{scannedData}</Text>
-      <Button title="Add Rewards" onPress={() => navigation.navigate("Add")} />
+      <Text style={styles.scannedDataText}>"QR Code id: "{scannedID}</Text>
       <Button title="Back" onPress={() => navigation.navigate("Home")} />
     </View>
   );
