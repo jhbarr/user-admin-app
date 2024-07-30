@@ -3,7 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-nativ
 
 export default function AddScreen({ navigation, route }) {
   const [quantity, setQuantity] = useState(''); // State for quantity as string
-  const { id } = route.params;
+  const { data } = route.params;
+  const id = data;
 
   const minusQuantity = () => {
     if (quantity === '' || parseInt(quantity, 10) <= 1) {
