@@ -5,7 +5,7 @@ import { CameraView, Camera } from 'expo-camera';
 export default function ScannerScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [scannedID, setScannedID] = useState('');
+  const [scannedData, setScannedData] = useState('');
 
   useEffect(() => {
     const getCameraPermissions = async () => {
@@ -16,10 +16,10 @@ export default function ScannerScreen({ navigation }) {
     getCameraPermissions();
   }, []);
 
-  const handleBarCodeScanned = ({ type, id }) => {
+  const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    setScannedID(id);
-    navigation.navigate('Add', { id: id });
+    setScannedData(data);
+    navigation.navigate('Add', { data: data });
   };
 
   if (hasPermission === null) {
